@@ -1,0 +1,55 @@
+<include file="Public:contentHeader" />
+<script type="text/javascript">
+    function style_show(theobj) {
+        var styles, key;
+        styles = new Array('move');
+        for (key in styles) {
+            var obj = $doc('style_' + styles[key]);
+            obj.style.display = styles[key] == theobj.options[theobj.selectedIndex].value ? '': 'none';
+        }
+    }
+    function $doc(id){
+        return document.getElementById(id);
+    }
+    function filechange() {
+        fileName=$doc('file_name');
+        file=$doc('file');
+        fileName.value=file.value;
+    }
+</script>
+<div class="upload">
+    <div class="uptitle">
+        <span class="uplink">
+            <a href="__ROOT__" class="home">首页</a>
+           <a class="tl" href="#">&gt;会议和动态</a>
+        </span>
+        <span class="lttitle">文件下载</span>
+    </div>
+    <form method="post" action="{:U('Upload/doInsert')}" id="mainFrom" enctype="multipart/form-data" class="uploadForm">
+        <div class="formIn">
+            <div class="category">
+                <label>文件栏目：</label><span>教学成果交流</span>
+            </div>
+            <div class="title">
+                <label>文件标题：</label>
+                <input class="text-input" type="text" name="title" id="title"  width="415px" height="33px" />
+            </div>
+            <div class="descrip">
+            <label>文件介绍：</label>
+            <textarea class="text-input textarea" name="content" id="content" cols="79" rows="4"></textarea>
+            </div>
+            <div class="upfile">
+                <label>文件上传：</label>
+                <input type="text" id="file_name" name="file_name" disabled="disabled" />
+                <a href="javascript:;" class="file">选择文件
+                    <input type="file" name="attach_file" id="attach_file" onchange="file_name.value=this.value" >
+                </a>
+            </div>
+            <div class="submit">
+                <input type="submit" id="submit" value="确认上传">
+            </div>
+        </div>
+    </form>
+</div>
+</div>
+<include file="Public:footer" />

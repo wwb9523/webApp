@@ -1,0 +1,195 @@
+<include file="Public:contentHeader"/>
+<div id="title_select">
+<a id="link_recruit" class="link_selected" onclick="setSelect('link_recruit','recruit_page','link_company','company_page')">职业信息</a>
+<a id="link_company" class="link_unSelected" onclick="setSelect('link_company','company_page','link_recruit','recruit_page')">公司信息</a>
+</div>
+<div id="recruit_page">
+<div id="recruit_simple">
+    <div id="recruit_line1">
+        <span id="job_title">{$contentDetail['job_title']}</span>
+        <span id="company_name">{$contentDetail['name']}</span>
+    </div>
+    <div  class="recruit_line">
+        <div class="child_flex1">
+            <div class="clearfix recruit_line_out">
+                <span class="form">雇佣形式</span>
+                <a class="form_content">{$contentDetail['form']}</a>
+            </div>
+        </div>
+        <div  class="child_flex1">
+            <span >工作地点</span>
+            <a>
+                <volist name="contentDetail['workPlace']" id="row">
+                    {$row['title']}&nbsp;
+                </volist>
+                </a>
+        </div>
+    </div>
+    <div  class="recruit_line">
+        <div class="child_flex1">
+            <div class="recruit_line_out">
+                <span>职位类别</span>
+                <a>{$contentDetail['type']}</a>
+            </div>
+        </div>
+        <div class="child_flex1">
+            <span >薪资待遇</span>
+            <a >{$contentDetail['salary']}</a>
+        </div>
+    </div>
+    <div  class="recruit_line">
+        <div class="child_flex1">
+            <div class="recruit_line_out">
+                <span>招聘人数</span>
+                <a>{$contentDetail['count']}</a>
+            </div>
+        </div>
+        <div class="child_flex1">
+            <span >最低学历</span>
+            <a >{$contentDetail['education']}</a>
+        </div>
+    </div>
+    <div  class="recruit_line">
+        <div class="child_flex1">
+            <div class="recruit_line_out">
+                <span>外语水平</span>
+                <a>{$contentDetail['foreign_language']}</a>
+            </div>
+        </div>
+        <div class="child_flex1">
+            <span >计算机水平</span>
+            <a >{$contentDetail['computer_skill']}</a>
+        </div>
+    </div>
+    <div  class="recruit_line">
+        <div class="child_flex1">
+            <div class="recruit_line_out">
+                <span>更新日期</span>
+                <a>{$contentDetail['update_time']|date='Y-m-d',###}</a>
+            </div>
+        </div>
+        <div class="child_flex1">
+            <span >查看次数</span>
+            <a >{$contentDetail['view_count']}</a>
+        </div>
+    </div>
+</div>
+    <div id="recruit_detail">
+        <div class="detail_wrap">
+            <span class="detail_label">职位描述</span>
+            <div class="details_content">
+                {$contentDetail['description']}
+            </div>
+        </div>
+        <div class="detail_wrap">
+            <span class="detail_label">任职条件</span>
+            <div class="details_content">
+                {$contentDetail['condition']}
+            </div>
+        </div>
+    </div>
+    <div id="contact_way">
+        <span class="detail_label">联系方式</span>
+        <div id="contact_content">
+            <div class="contact_line">
+            <label class="contact_label">所在城市：</label>
+            <span >{$contentDetail['city']}</span></div>
+            <div class="contact_line">
+            <label class="contact_label">公司地址：</label>
+            <span >{$contentDetail['address']}</span></div>
+            <div class="contact_line">
+            <label class="contact_label">邮政编码：</label>
+            <span>{$contentDetail['postcode']}</span></div>
+            <div class="contact_line">
+            <label class="contact_label">公司网址：</label>
+            <span>{$contentDetail['website']}</span></div>
+            <div class="contact_line">
+            <label class="contact_label">联系人：</label>
+            <span>{$contentDetail['contacts']}</span></div>
+            <div class="contact_line">
+            <label class="contact_label">联系电话：</label>
+            <span>{$contentDetail['phone']}</span></div>
+            <div class="contact_line">
+            <label class="contact_label">联系传真：</label>
+            <span>{$contentDetail['fax']}</span></div>
+            <div class="contact_line">
+            <label class="contact_label">电子邮件：</label>
+            <span>{$contentDetail['email']}</span></div>
+        </div>
+    </div>
+    <a id="recruit_id" style="display: none">{$contentDetail['id']}</a>
+</div >
+<div id="company_page">
+    <div id="company_simply">
+        <div class="company_line1">
+            <span id="company">{$contentDetail['name']}</span>
+        </div>
+        <div class="company_line">
+            <div class="child_flex1">
+                <div class="clearfix recruit_line_out">
+                    <label >公司性质</label>
+                    <span>{$contentDetail['nature']}</span>
+                </div>
+            </div>
+            <div class="child_flex1">
+                <div class="clearfix recruit_line_out">
+                    <label >公司规模</label>
+                    <span>{$contentDetail['scale']}人</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="company_detail">
+        <label class='detail_label'>公司简介</label>
+        <span>{$contentDetail['companyIntro']}</span>
+    </div>
+</div>
+<div id="news_msg">
+
+</div>
+<div id="recruit_footer">
+    <div id="recruit_footerIn">
+    <input  type="button" id="apply" data-name="apply" class="recruit_button" value="申请职位" />
+    <input type="button" id="collect" data-name="collect" class="recruit_button" value="收藏职位" />
+    </div>
+</div>
+<script>
+    $(function () {
+       $('.recruit_button').click(function () {
+          var mode=$(this).attr('data-name');
+           var href="{:U('Person/doRecruit')}";
+           var text=$(this).val();
+           var id=$('#recruit_id').text();
+           $.ajax({
+               type:'post',
+               url:href,
+               data:{mode:mode,recruitId:id},
+               cache:false,
+               dataType:'json',
+               error:function(){
+                   alert('未知错误,请于管理员联系');
+               },
+               success:function(data){
+                   if(data.status==1){
+                       alert(text+'成功!');
+                   }else{
+                       switch(data.info){
+                        //   case 'existed data':alert('您已经收藏过该信息了');break;
+                           case 'error mode' : alert('模块错误,请于管理员联系');break;
+                           case  'Add False' : alert('操作失败,请稍后尝试');break;
+                           default:alert('未知错误,请于管理员联系');
+                       }
+                   }
+               }
+           })
+       });
+    });
+    function setSelect(selectId,showPage,unSelectId,hidePage) {
+        $('#' + selectId).removeClass().addClass('link_selected');
+        $('#' + unSelectId).removeClass().addClass('link_unSelected');
+        $('#'+showPage).css('display','block');
+        $('#'+hidePage).css('display','none');
+    }
+</script>
+</body>
+</html>

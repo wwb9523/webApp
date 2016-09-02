@@ -1,0 +1,18 @@
+<include file="Public:contentHeader"/>
+<div class="clearfix" id="page">
+    <div id="detail_news_header">
+        <span id="detail_title">{$contentDetail['title']}</span>
+        <div class="clearfix" id="detail_info">
+            <span id="detail_date">时间&thinsp;:&thinsp;{$contentDetail['create_time']|date='Y-m-d',###}</span>&nbsp;
+            <span id="detail_from">来源&thinsp;:&thinsp;{$contentDetail['from']}</span>&nbsp;
+            <span id="detail_count">点击&thinsp;:&thinsp;{$contentDetail['view_count']}</span>&nbsp;
+        </div>
+    </div>
+    <div id="news_content_out">
+        <div id="news_content_in">
+            {$contentDetail['content']}
+        </div>
+    </div>
+</div>
+</body>
+</html>

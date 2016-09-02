@@ -1,0 +1,43 @@
+<include file="Public:contentHeader"/>
+<span id="record_title">档案查询结果</span>
+<div id="record_detail">
+    <div id="record_line1" class="flex">
+        <div id="stu_number" class="child_flex1">
+            <div class="clearfix record_line_out">
+            <span class="record_label">学号</span>
+            <span class="record_content">{$contentDetail['stu_number']}</span>
+            </div>
+        </div>
+        <div id="stu_name" class="child_flex1">
+            <span class="record_label">姓名</span>
+            <span class="record_content">{$contentDetail['name']}</span>
+        </div>
+    </div>
+    <div id="record_line2" class="flex">
+        <div id="stu_pro" class="child_flex1">
+            <div class="clearfix record_line_out">
+            <span class="record_label">专业</span>
+            <span class="record_content">{$contentDetail['profession']}</span>
+            </div>
+        </div>
+        <div id="EMS_number" class="child_flex1">
+            <span class="record_label">EMS运单号</span>
+            <span class="record_content">{$contentDetail['EMS_number']}</span>
+        </div>
+    </div>
+    <div id="receiving_unit">
+        <span class="record_label">档案接收单位名称</span>
+        <span class="record_content">{$contentDetail['receiving_unit']}</span>
+    </div>
+    <div id="receiving_address">
+        <span class="record_label">档案接收单位地址</span>
+        <span class="record_content">{$contentDetail['receiving_address']}</span>
+    </div>
+    <div id="postcode">
+        <span class="record_label">邮编</span>
+        <span class="record_content">{$contentDetail['postcode']}</span>
+    </div>
+</div>
+<span id="record_notice">{$notice['content']}</span>
+</body>
+</html>

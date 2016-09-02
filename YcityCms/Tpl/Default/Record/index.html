@@ -1,0 +1,77 @@
+<include file="Public:contentHeader"/>
+<div id="form_record" class="NoneBg">
+    <div id="select_graduate" class="record_select_out">
+            <span id="sleBG_graduate" class="sleBG">
+            <span id="sleHid_graduate" class="sleHid">
+            <select id="graduate" class="record_select select" name="graduate">
+                <option value="" style="color: #9c9c9c" disabled selected>选择毕业年限</option>
+            </select>
+            </span>
+            </span>
+    </div>
+    <div id="select_certificate" class="record_select_out">
+            <span id="sleBG_certificate" class="sleBG">
+            <span id="sleHid_certificate" class="sleHid">
+            <select id="certificate" class="record_select select" name="certificate">
+                <option value="" style="color: #9c9c9c" disabled selected>选择证件类型</option>
+                <volist name="certificate" id="row">
+                    <option value="{$row['id']}">{$row['title']}</option>
+                </volist>
+            </select>
+            </span>
+            </span>
+    </div>
+    <div id="certificate_num_out">
+    <input id="certificate_num" name="certificate_num"  placeholder="请输入证件号码"/>
+    </div>
+    <label id="errorMsg"></label>
+    <input type="submit" value="确认查询" id="record_submit"/>
+</div>
+<span id="record_notice">{$notice['content']}</span>
+<script language="javascript" type="text/javascript">
+    window.onload=function(){
+        var myDate= new Date();
+        var startYear=myDate.getFullYear()-20;
+        var endYear=myDate.getFullYear()+2;//结束年份
+        var obj=document.getElementById('graduate');
+        for (var i=endYear;i>startYear;i--)
+        {
+            obj.options.add(new Option(i,i));
+        }
+    };
+    $("#record_submit").click(function () {
+        var _graduate=$("#graduate").val();
+        var _certificate=$("#certificate").val();
+        var _certificate_num=$("#certificate_num").val();
+        if(_graduate==undefined)$("#errorMsg").text('毕业年限未选择!');
+        else if(_certificate==undefined)$("#errorMsg").text('证件类型未选择!');
+        else if(_certificate_num==undefined)$("#errorMsg").text('证件号码未填写!');
+        else{
+            var search="{:U('Record/search')}";           //修改url:  host/action/index.html => host/action/search
+            var detail=search.replace(/(.*\/)(.*)/,"$1detail");
+            $.ajax({
+                type: 'post',
+                url: search,
+                data:{ graduate:_graduate , certificate:_certificate,certificate_num:_certificate_num},
+                cache:false,
+                dataType:'json',
+                beforeSend:function () {
+                    $("#errorMsg").html('<b>正在请求数据,请稍等！</b>');
+                },
+                error:function(){
+                    $("#errorMsg").html('<b>数据请求失败,请稍后尝试~~</b>');
+                },
+                success:function(data) {
+                    if(data.status==0){
+                        $("#errorMsg").html('<b>没有相应记录</b>');
+                    }
+                    else{
+                        window.location.href=detail+'/item/'+data.data['id'];
+                    }
+                }
+            })
+        }
+    })
+</script>
+</body>
+</html>

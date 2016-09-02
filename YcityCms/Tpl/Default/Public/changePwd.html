@@ -1,0 +1,107 @@
+<taglib name="YC"/>
+<include file="Public:contentHeader"/>
+<script type="text/javascript" >
+    $(function(){
+        $("#submit").click(function(){
+            $.ajax({
+                type:"POST",
+                url:"{:U('Public/doChangePwd')}",
+                data:{
+                    username: $('#username').val(), password_old: $('#password_old').val(), verifyCode: $('#verifyCode').val(),password_new: $('#password_new').val()
+                },
+                beforeSend:function(){
+                    $("#submit").addClass("disable");
+                    $("#submit").attr("disable","disable");
+                    $("#submit").attr("value","正在提交...");
+                },
+                success:function(data){
+                    switch(data)
+                    {
+                        case 'errorVerifyCode':
+                            //$("#verifyImage").attr('src', "{:U('Public/verify',0,0,0)}?"+ Math.random());
+                            resetVerifyCode();
+                            $("#msg").html('<span style="color:#FF0000">验证码错误</span>');
+                            $("#submit").removeClass('disable');
+                            $("#submit").attr("value","提交");
+                            break;
+                        case 'emptyInfo':
+                            $("#msg").html('<span style="color:#FF0000">用户名密码必须填写</span>');
+                            $("#submit").removeClass('disable');
+                            $("#submit").attr("value","提交");
+                            break;
+                        case 'usernameFalse':
+                            $("#msg").html('<span style="color:#FF0000">用户信息不存在，登录失败</span>');
+                            $("#submit").removeClass('disable');
+                            $("#submit").attr("value","提交");
+                            resetVerifyCode();
+                            break;
+                        case 'passwordFalse':
+                            $("#msg").html('<span style="color:#FF0000">密码错误</span>');
+                            $("#submit").removeClass('disable');
+                            $("#submit").attr("value","提交");
+                            resetVerifyCode();
+                            break;
+                        case 'roleFalse':
+                            $("#msg").html('<span style="color:#FF0000">当前用户被限制登录，请联系管理员</span>');
+                            resetVerifyCode();
+                            $("#submit").removeClass('disable');
+                            $("#submit").attr("value","提交");
+                            break;
+                        case 'roleLost':
+                            $("#msg").html('<span style="color:#FF0000">不存在的用户组，请联系管理员</span>');
+                            resetVerifyCode();
+                            $("#submit").removeClass('disable');
+                            $("#submit").attr("value","提交");
+                            break;
+                        case 'changeSuccess':
+                            $("#msg").html('<span style="color:#FF0000">密码修改成功</span>');
+                            location.reload();
+                            return true;
+                            break;
+                        default:
+                            $("#msg").html('<span style="color:#FF0000">'+data+'</span>');
+                            alert ('未知错误，请联系管理员');
+                    }
+                    return false;
+                }
+            });
+        });
+
+    });
+
+    function resetVerifyCode()
+    {
+        $("#verifyImage").attr('src', "{:U('Public/verify',0,0,0)}");
+    }
+
+</script>
+<div class="listright">
+    <div class="loginTitle">
+        燃气指导小组频道用户密码修改
+    </div>
+    <form action="{:U('Public/doChangePwd')}" method="post" class="lform">
+        <input style="display:none" type="text" id="aaa"/>
+        <input type="password" name="password1"  id="pwd1" style="display:none"/>
+        <div class="username">
+            <label>用户名：</label><input type="text" name="username" id="username" autocomplete="off" value="{$userName}" readOnly='true' style="background-color: #d2d2d2"/>
+        </div>
+        <div class="password">
+            <label>旧密码：</label><input type="password" class="password" name="password_old" id="password_old" />
+        </div>
+        <div class="password">
+            <label>新密码：</label><input type="password" class="password" name="password_new" id="password_new" />
+        </div>
+        <div class="verifyCode">
+            <label>验证码：</label><input type="text" name="verifyCode" id="verifyCode" size="8" maxlength="4" />
+            <img src="{:U('Public/verify')}" align="absmiddle" class="checkcode"  id="verifyImage"/>
+            <div class="changeCode" id="changeCode" onclick="">看不清,换一个</div>
+        </div>
+        <input type="submit" value="提交" id="submit" class="submit">
+        <input name="jumpUri" type="hidden" id="jumpUri" value="{$jumpUri}" />
+    </form>
+    <div id="msg"></div>
+</div>
+</div>
+<include file="Public:footer" />
+</body>
+</html>
